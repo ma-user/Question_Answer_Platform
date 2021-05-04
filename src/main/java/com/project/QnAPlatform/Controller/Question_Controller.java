@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 @RequestMapping(path = "/api/questions")
 public class Question_Controller {
 
@@ -35,7 +36,6 @@ public class Question_Controller {
                                        @RequestParam(value = "postedAt", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date postedAt) {
         return questionService.getQuestions(companies, subtopics, tags, questionLikes, postedAt);
     }
-
 
     @PostMapping
     public Long addQuestion(@RequestBody Question question) {

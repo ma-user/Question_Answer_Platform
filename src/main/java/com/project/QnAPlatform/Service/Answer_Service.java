@@ -16,7 +16,10 @@ public class Answer_Service {
     }
 
     public Long addAnswer(Answer answer) {
-        answerRepository.saveAndFlush(answer);
-        return answer.getAnswerId();
+        Answer newAnswer = new Answer();
+        newAnswer.setAnswerText(answer.getAnswerText());
+        newAnswer.setQuestion(answer.getQuestion());
+        newAnswer.setUser(answer.getUser());
+        return (answerRepository.saveAndFlush(newAnswer)).getAnswerId();
     }
 }

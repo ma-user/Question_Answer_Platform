@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping(path = "/api/questionLikes")
 public class Question_likes_Controller {
@@ -21,6 +23,12 @@ public class Question_likes_Controller {
 
     @PostMapping
     public void addQuestionLike(@RequestBody Question_likes questionLikes) {
-        questionLikesService.addQuestionLike(questionLikes);
+        Optional<Question_likes> question_likesOptional = questionLikesService.findQuestionLikes(questionLikes);
+        if(question_likesOptional.isPresent()) {
+            throw new IllegalStateException("User has already liked the answer");
+        }
+        else {
+            questionLikesService.addQuestionLike(questionLikes);
+        }
     }
 }

@@ -1,9 +1,7 @@
 package com.project.QnAPlatform.Service;
 
 import com.project.QnAPlatform.DAO.Answer_comments_Repository;
-import com.project.QnAPlatform.Model.Answer;
 import com.project.QnAPlatform.Model.Answer_comments;
-import com.project.QnAPlatform.Model.Users;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +16,10 @@ public class Answer_comments_Service {
     }
 
     public Long addComment(Answer_comments answerComments) {
-        answerCommentsRepository.saveAndFlush(answerComments);
-        return answerComments.getAnswerCommentsId();
+        Answer_comments newAnswerComment = new Answer_comments();
+        newAnswerComment.setCommentText(answerComments.getCommentText());
+        newAnswerComment.setAnswer(answerComments.getAnswer());
+        newAnswerComment.setUser(answerComments.getUser());
+        return (answerCommentsRepository.saveAndFlush(newAnswerComment)).getAnswerCommentsId();
     }
 }

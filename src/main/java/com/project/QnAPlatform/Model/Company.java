@@ -1,10 +1,11 @@
 package com.project.QnAPlatform.Model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "company")
@@ -19,9 +20,9 @@ public class Company {
     @Column(name = "company_name")
     private String companyName;
 
-    @ManyToMany(mappedBy = "companies")
-    @JsonIgnore
-    private List<Question> questions;
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "companies")
+    @JsonBackReference
+    private Set<Question> questions = new HashSet<>();
 
     public Company() {
     }
@@ -47,20 +48,11 @@ public class Company {
         this.companyName = companyName;
     }
 
-    public List<Question> getQuestions() {
+    public Set<Question> getQuestions() {
         return questions;
     }
 
-    public void setQuestions(List<Question> questions) {
+    public void setQuestions(Set<Question> questions) {
         this.questions = questions;
-    }
-
-    @Override
-    public String toString() {
-        return "Company{" +
-                "companyId=" + companyId +
-                ", companyName='" + companyName + '\'' +
-                ", questions=" + questions +
-                '}';
     }
 }

@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface Company_Repository extends JpaRepository<Company, Long> {
+    Company findByCompanyId(Long companyId);
 }

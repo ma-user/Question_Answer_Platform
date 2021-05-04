@@ -30,13 +30,13 @@ public class Users {
     @JsonIgnore
     private List<Answer> answers;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
-    private List<Question_likes> questionLikes;
+    private Question_likes questionLikes;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
-    private List<Answer_likes> answerLikes;
+    private Answer_likes answerLikes;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
@@ -91,19 +91,19 @@ public class Users {
         this.answers = answers;
     }
 
-    public List<Question_likes> getQuestionLikes() {
+    public Question_likes getQuestionLikes() {
         return questionLikes;
     }
 
-    public void setQuestionLikes(List<Question_likes> questionLikes) {
+    public void setQuestionLikes(Question_likes questionLikes) {
         this.questionLikes = questionLikes;
     }
 
-    public List<Answer_likes> getAnswerLikes() {
+    public Answer_likes getAnswerLikes() {
         return answerLikes;
     }
 
-    public void setAnswerLikes(List<Answer_likes> answerLikes) {
+    public void setAnswerLikes(Answer_likes answerLikes) {
         this.answerLikes = answerLikes;
     }
 
@@ -113,19 +113,5 @@ public class Users {
 
     public void setAnswerComments(List<Answer_comments> answerComments) {
         this.answerComments = answerComments;
-    }
-
-    @Override
-    public String toString() {
-        return "Users{" +
-                "userId=" + userId +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", questions=" + questions +
-                ", answers=" + answers +
-                ", questionLikes=" + questionLikes +
-                ", answerLikes=" + answerLikes +
-                ", answerComments=" + answerComments +
-                '}';
     }
 }

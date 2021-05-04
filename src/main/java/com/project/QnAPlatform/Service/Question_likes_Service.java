@@ -1,12 +1,11 @@
 package com.project.QnAPlatform.Service;
 
 import com.project.QnAPlatform.DAO.Question_likes_Repository;
-
-import com.project.QnAPlatform.Model.Question;
 import com.project.QnAPlatform.Model.Question_likes;
-import com.project.QnAPlatform.Model.Users;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class Question_likes_Service {
@@ -19,9 +18,15 @@ public class Question_likes_Service {
     }
 
     public void addQuestionLike(Question_likes questionLikes) {
-        Question questionId = questionLikes.getQuestion();
-        Users userId = questionLikes.getUser();
-        question_likes_repository.saveAndFlush(questionLikes);
-        question_likes_repository.addQuestionLike(questionId, userId);
+        Question_likes newQuestionLike = new Question_likes();
+        newQuestionLike.setQuestion(questionLikes.getQuestion());
+        newQuestionLike.setUser(questionLikes.getUser());
+        newQuestionLike.setNumOfLikesOfQuestion(questionLikes.getNumOfLikesOfQuestion()+1);
+        question_likes_repository.saveAndFlush(newQuestionLike);
+    }
+
+    public Optional<Question_likes> findQuestionLikes(Question_likes questionLikes) {
+        return question_likes_repository.findQuestionLikes(questionLikes);
     }
 }
+

@@ -1,10 +1,12 @@
 package com.project.QnAPlatform.Model;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.util.Date;
 
 @Entity
@@ -18,6 +20,8 @@ public class Answer_comments {
     private Long answerCommentsId;
 
     @Column(name = "comment_text")
+    @Size(min = 50, max = 500)
+    @NotEmpty(message = "Please enter comment")
     private String commentText;
 
     @Temporal(TemporalType.TIMESTAMP)
@@ -26,7 +30,7 @@ public class Answer_comments {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "answer_id")
-    @JsonIgnore
+    @JsonBackReference
     private Answer answer;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -78,16 +82,5 @@ public class Answer_comments {
 
     public void setCommentedAt(Date commentedAt) {
         this.commentedAt = commentedAt;
-    }
-
-    @Override
-    public String toString() {
-        return "Answer_comments{" +
-                "answerCommentsId=" + answerCommentsId +
-                ", commentText='" + commentText + '\'' +
-                ", commentedAt=" + commentedAt +
-                ", answer=" + answer +
-                ", user=" + user +
-                '}';
     }
 }

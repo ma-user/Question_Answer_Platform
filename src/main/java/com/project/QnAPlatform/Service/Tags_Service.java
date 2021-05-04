@@ -41,4 +41,8 @@ public class Tags_Service {
     public void deleteTag(Long id) {
         tagsRepository.deleteById(id);
     }
+
+    public Tags findTagById(Long tagsId) {
+        return tagsRepository.findByTagsId(tagsId);
+    }
 }

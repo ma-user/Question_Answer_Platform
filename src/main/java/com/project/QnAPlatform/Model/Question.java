@@ -3,8 +3,9 @@ package com.project.QnAPlatform.Model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.List;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
+import java.util.*;
 
 @Entity
 @Table(name = "question")
@@ -17,6 +18,8 @@ public class Question {
     private Long questionId;
 
     @Column(name = "question_text")
+    @Size(min = 50, max = 500)
+    @NotEmpty
     private String questionText;
 
     @Temporal(TemporalType.TIMESTAMP)
@@ -29,13 +32,13 @@ public class Question {
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Question_likes> questionLikes;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(
             name = "Question_company_mapping",
             joinColumns = @JoinColumn(name = "question_id"),
             inverseJoinColumns = @JoinColumn(name = "company_id")
     )
-    private List<Company> companies;
+    private Set<Company> companies = new HashSet<>();
 
     @ManyToMany
     @JoinTable(
@@ -43,19 +46,14 @@ public class Question {
             joinColumns = @JoinColumn(name = "question_id"),
             inverseJoinColumns = @JoinColumn(name = "tags_id")
     )
-    private List<Tags> tags;
-
-    @OneToMany
-    @JoinColumn(name = "topic_id")
-    private List<Topic> topics;
+    private Set<Tags> tags = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private Users user;
 
-    @OneToMany
-    @JoinColumn(name = "subtopic_id")
-    private List<Subtopic> subtopics;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "question")
+    private List<Subtopic> subtopics = new ArrayList<>();
 
     public Question() {
     }
@@ -65,7 +63,7 @@ public class Question {
         this.questionText = questionText;
     }
 
-    public Question(Date postedAt, List<Question_likes> questionLikes, List<Company> companies, List<Tags> tags, List<Subtopic> subtopics) {
+    public Question(Date postedAt, List<Question_likes> questionLikes, Set<Company> companies, Set<Tags> tags, List<Subtopic> subtopics) {
         this.postedAt = postedAt;
         this.questionLikes = questionLikes;
         this.companies = companies;
@@ -105,12 +103,6 @@ public class Question {
         this.questionLikes = questionLikes;
     }
 
-    public List<Topic> getTopics() {
-        return topics;
-    }
-
-    public void setTopics(List<Topic> topics) { this.topics = topics; }
-
     public Users getUser() {
         return user;
     }
@@ -119,19 +111,19 @@ public class Question {
         this.user = user;
     }
 
-    public List<Company> getCompanies() {
+    public Set<Company> getCompanies() {
         return companies;
     }
 
-    public void setCompanies(List<Company> companies) {
+    public void setCompanies(Set<Company> companies) {
         this.companies = companies;
     }
 
-    public List<Tags> getTags() {
+    public Set<Tags> getTags() {
         return tags;
     }
 
-    public void setTags(List<Tags> tags) {
+    public void setTags(Set<Tags> tags) {
         this.tags = tags;
     }
 
@@ -149,21 +141,5 @@ public class Question {
 
     public void setPostedAt(Date postedAt) {
         this.postedAt = postedAt;
-    }
-
-    @Override
-    public String toString() {
-        return "Question{" +
-                "questionId=" + questionId +
-                ", questionText='" + questionText + '\'' +
-                ", postedAt=" + postedAt +
-                ", answers=" + answers +
-                ", questionLikes=" + questionLikes +
-                ", companies=" + companies +
-                ", tags=" + tags +
-                ", topics=" + topics +
-                ", user=" + user +
-                ", subtopics=" + subtopics +
-                '}';
     }
 }

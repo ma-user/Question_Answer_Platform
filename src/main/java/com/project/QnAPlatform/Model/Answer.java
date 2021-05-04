@@ -1,9 +1,12 @@
 package com.project.QnAPlatform.Model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 @Entity
@@ -17,11 +20,13 @@ public class Answer {
     private Long answerId;
 
     @Column(name = "answer_text")
+    @Size(min = 50, max = 500)
+    @NotEmpty
     private String answerText;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "question_id")
-    @JsonIgnore
+    @JsonBackReference
     private Question question;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -29,9 +34,11 @@ public class Answer {
     private Users user;
 
     @OneToMany(mappedBy = "answer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference
     private List<Answer_likes> answerLikes;
 
     @OneToMany(mappedBy = "answer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference
     private List<Answer_comments> answerComments;
 
     public Answer() {
@@ -88,17 +95,5 @@ public class Answer {
 
     public void setUser(Users user) {
         this.user = user;
-    }
-
-    @Override
-    public String toString() {
-        return "Answer{" +
-                "answerId=" + answerId +
-                ", answerText='" + answerText + '\'' +
-                ", question=" + question +
-                ", user=" + user +
-                ", answerLikes=" + answerLikes +
-                ", answerComments=" + answerComments +
-                '}';
     }
 }

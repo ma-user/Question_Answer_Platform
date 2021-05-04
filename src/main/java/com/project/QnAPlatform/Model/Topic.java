@@ -1,36 +1,19 @@
 package com.project.QnAPlatform.Model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import javax.persistence.*;
+import java.io.Serializable;
+import java.util.Objects;
 
-@Entity
-@Table(name = "topic")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class Topic {
+@Embeddable
+public class Topic implements Serializable {
 
-    @Id
-    @Column(name = "topic_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long topic_id;
-
-    @Column(name = "topic_name")
     private String topic_name;
 
     public Topic() {
     }
 
-    public Topic(Long topic_id, String topic_name) {
-        this.topic_id = topic_id;
+    public Topic(String topic_name) {
         this.topic_name = topic_name;
-    }
-
-    public Long getTopicId() {
-        return topic_id;
-    }
-
-    public void setTopicId(Long topic_id) {
-        this.topic_id = topic_id;
     }
 
     public String getTopicName() {
@@ -42,10 +25,15 @@ public class Topic {
     }
 
     @Override
-    public String toString() {
-        return "Topic{" +
-                "topic_id=" + topic_id +
-                ", topic_name='" + topic_name + '\'' +
-                '}';
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Topic topic = (Topic) o;
+        return Objects.equals(topic_name, topic.topic_name) ;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(topic_name);
     }
 }

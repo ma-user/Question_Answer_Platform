@@ -34,11 +34,16 @@ public class Subtopic_Service {
         return subtopicRepository.findById(id)
                 .map(subtopic -> {
                     subtopic.setSubtopicName(newSubtopic.getSubtopicName());
+                    subtopic.setTopic(newSubtopic.getTopic());
                     return subtopicRepository.saveAndFlush(subtopic);
                 });
     }
 
     public void deleteSubtopic(Long id) {
         subtopicRepository.deleteById(id);
+    }
+
+    public Subtopic findSubtopicById(Long subtopicId) {
+        return subtopicRepository.findBySubtopicId(subtopicId);
     }
 }

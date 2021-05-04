@@ -1,6 +1,5 @@
 package com.project.QnAPlatform.Controller;
 
-
 import com.project.QnAPlatform.Model.*;
 import com.project.QnAPlatform.Service.Answer_Service;
 import org.springframework.beans.factory.annotation.Autowired;

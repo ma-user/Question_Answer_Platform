@@ -13,8 +13,9 @@ import java.util.List;
 public interface Question_Repository extends JpaRepository<Question, Long> {
 
     @Query("SELECT Q FROM Question Q JOIN Q.companies C JOIN Q.subtopics S JOIN Q.tags T JOIN Q.questionLikes QL" +
-            " WHERE C.companyName IN (:companies) AND S.subtopicName IN (:subtopics)" +
-            " AND T.tags IN (:tags) AND QL.numOfLikesOfQuestion > (:questionLikes) AND Q.postedAt > (:postedAt)")
+            " WHERE (C.companyName IN (:companies)) AND (S.subtopicName IN (:subtopics))" +
+            " AND (T.tags IN (:tags)) AND (QL.numOfLikesOfQuestion > (:questionLikes))" +
+            " AND (Q.postedAt > (:postedAt))")
     List<Question> findByCompaniesAndSubtopicsAndTagsAndQuestionLikesGreaterThanAndPostedAtAfter(@Param("companies") List<String> companies,
                                                                                                  @Param("subtopics") List<String> subtopics,
                                                                                                  @Param("tags") List<String> tags,

@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface Subtopic_Repository extends JpaRepository<Subtopic, Long> {
+    Subtopic findBySubtopicId(Long subtopicId);
 }

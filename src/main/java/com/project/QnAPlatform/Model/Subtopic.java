@@ -1,5 +1,6 @@
 package com.project.QnAPlatform.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
@@ -16,6 +17,22 @@ public class Subtopic {
 
     @Column(name = "subtopic_name")
     private String subtopicName;
+
+    @ManyToOne
+    @JoinColumn(name = "question_id")
+    @JsonIgnore
+    private Question question;
+
+    public Topic getTopic() {
+        return topic;
+    }
+
+    public void setTopic(Topic topic) {
+        this.topic = topic;
+    }
+
+    @Embedded
+    private Topic topic;
 
     public Subtopic() {
     }
@@ -41,11 +58,7 @@ public class Subtopic {
         this.subtopicName = subtopicName;
     }
 
-    @Override
-    public String toString() {
-        return "Subtopic{" +
-                "subtopicId=" + subtopicId +
-                ", subtopicName='" + subtopicName + '\'' +
-                '}';
-    }
+    public Question getQuestion() { return question; }
+
+    public void setQuestion(Question question) { this.question = question; }
 }

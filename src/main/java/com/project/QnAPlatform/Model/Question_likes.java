@@ -1,9 +1,10 @@
 package com.project.QnAPlatform.Model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Table(name = "question_likes")
@@ -18,13 +19,12 @@ public class Question_likes {
     private int numOfLikesOfQuestion = 0;
 
     @ManyToOne
+    @JsonBackReference
     @JoinColumn(name = "question_id")
-    @JsonIgnore
     private Question question;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    @JsonIgnore
     private Users user;
 
     public Question_likes() {
@@ -68,12 +68,15 @@ public class Question_likes {
     }
 
     @Override
-    public String toString() {
-        return "Question_likes{" +
-                "id=" + id +
-                ", numOfLikesOfQuestion=" + numOfLikesOfQuestion +
-                ", question=" + question +
-                ", user=" + user +
-                '}';
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Question_likes likes = (Question_likes) o;
+        return numOfLikesOfQuestion == likes.numOfLikesOfQuestion && Objects.equals(id, likes.id) && Objects.equals(question, likes.question) && Objects.equals(user, likes.user);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, numOfLikesOfQuestion, question, user);
     }
 }
